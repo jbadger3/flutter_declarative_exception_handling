@@ -1,2 +1,2 @@
-# flutter_declarative_exception_handling
-Demo app demonstrating how to provide app-wide declarative exception handling 
+# Flutter Error Handling Demo
+Demo app demonstrating common errors encountered in Flutter and a practical strategy for how they can be handled. 
