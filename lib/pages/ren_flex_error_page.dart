@@ -5,13 +5,13 @@ class RenFlexErrorPage extends DetailedException {
   RenFlexErrorPage({required super.title, required super.message});
 }
 
-class Page2 extends StatelessWidget {
-  const Page2({super.key});
+class RenderFlexErrorPage extends StatelessWidget {
+  const RenderFlexErrorPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Page 2')),
+      appBar: AppBar(title: const Text('RenderFlex Example')),
       body: Center(
         child: Row(
           children: [

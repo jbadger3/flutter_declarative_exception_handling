@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_declarative_exception_handling/app_state.dart';
-import 'package:flutter_declarative_exception_handling/detailed_exception.dart';
-import 'package:flutter_declarative_exception_handling/pages/ren_flex_error_page.dart';
-
-class HomePageException extends DetailedException {
-  HomePageException({required super.title, required super.message});
-}
+import 'package:flutter_declarative_exception_handling/pages/async_error_example_page.dart';
+import 'package:flutter_declarative_exception_handling/pages/flutter_error_examples_page.dart';
+import 'package:flutter_declarative_exception_handling/pages/widget_error_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -17,8 +14,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool buildError = false;
-
   @override
   void initState() {
     AppState().detailedException.addListener(_showErrorMessage);
@@ -33,67 +28,38 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (buildError) {
-      throw Exception('Error rebuilding');
-    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
           children: [
-            ElevatedButton(
-                onPressed: () {
-                  final myList = [1, 2, 3];
-                  final _ = myList[10]; //RangeError
-                },
-                child: const Text('Generate unhandled error')),
-            ElevatedButton(
-                onPressed: () {
-                  throw HomePageException(
-                      title: 'Error', message: 'Sorry for messing things up.');
-                },
-                child: const Text('Generate unhandled exception')),
-            ElevatedButton(
-                onPressed: () async {
-                  final myList = [1, 2, 3];
-                  final _ = myList[10]; //RangeError
-                },
-                child: const Text('Generate asynchronous error')),
-            ElevatedButton(
-                onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Page2())),
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('RenderFlex Error Page'),
-                    Icon(Icons.navigate_next)
-                  ],
-                )),
-            ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    buildError = true;
-                  });
-                },
-                child: const Text('Rebuild page with error')),
-            ElevatedButton(
-              onPressed: () {
-                try {
-                  throw HomePageException(
-                      title: 'Handled Error',
-                      message:
-                          "No worries.  There was an error, but the app didn't break.");
-                } on HomePageException catch (e) {
-                  AppState().detailedException.value = e;
-                  //Fix app state
-                }
-              },
-              child: const Text('Generate and handle error'),
+            ListTile(
+              title: const Text('1. ErrorWidget Example'),
+              trailing: const Icon(Icons.navigate_next),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const WidgetErrorPage())),
             ),
+            ListTile(
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const FlutterErrorExamplesPage())),
+              title: const Text('2. FlutterError Examples'),
+              trailing: const Icon(Icons.navigate_next),
+            ),
+            ListTile(
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AsyncErrorExamplePage())),
+              title: const Text('3. Async Error Example'),
+              trailing: const Icon(Icons.navigate_next),
+            )
           ],
         ),
       ),
